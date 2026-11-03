@@ -50,8 +50,7 @@ La práctica tiene como propósito **reproducir un procedimiento completo de mod
 
 A partir de las ecuaciones de mallas y nodos se deriva la función de transferencia de primer orden del sistema, se determina el error en estado estacionario y se analiza la estabilidad temporal del tejido muscular. Posteriormente se aplican cuatro entradas de referencia —escalón, pulso, rampa y senoide— y se contrastan las simulaciones numéricas en MATLAB/Simulink/Simscape con la implementación en Python y los registros de laboratorio. Finalmente, se sintoniza un **controlador PID con retroalimentación negativa** para garantizar una respuesta precisa en lazo cerrado.
 
-**Palabras clave:** circuito RLC; controlador PID; sistema musculoesquelético; fuerza muscular; superposición; estabilidad; MATLAB; Simulink; Simscape Electrical; Python; simulación *in silico*.
-
+**Palabras clave:** circuito RLC; controlador PID; sistema musculoesquelético; modelo matemático; simulaciones numéricas.
 [Volver al contenido](#contenido)
 
 ---
