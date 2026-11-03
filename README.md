@@ -307,18 +307,6 @@ flowchart TD
 ├── sistema_musculoesqueletico.slx      # Modelo de Simulink/Simscape
 ├── sistema_musculoesqueletico.py       # Código en Python
 ├── controlador_pid.png                 # Parámetros del controlador
-├── step_matlab.pdf
-├── impulse_matlab.pdf
-├── ramp_matlab.pdf
-├── sinusoidal_matlab.pdf
-├── step_python.pdf
-├── impulse_python.pdf
-├── ramp_python.pdf
-├── sinusoidal_python.pdf
-├── stepLC.pdf
-├── impulseLC.pdf
-├── rampLC.pdf
-└── sinLC.pdf
 ```
 
 [Volver al contenido](#contenido)
@@ -331,7 +319,7 @@ flowchart TD
 ### Software
 - **MATLAB R2023a o superior** (Simulink, Simscape Electrical, Control System Toolbox).
 - **Python 3.8+** (con `numpy`, `scipy`, `matplotlib`, `control`).
-- **VS Code** o Spyder.
+- **VS Code** .
 
 ### Recursos de laboratorio
 - Instrumentación de laboratorio (Osciloscopio, Fuente simétrica, Generador de funciones).
