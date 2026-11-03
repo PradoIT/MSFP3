@@ -1,9 +1,4 @@
-[readme (6).md](https://github.com/user-attachments/files/34304317/readme.6.md)
-[![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=PradoIT/MSFP3)
 
-# MSFP3
-Práctica 3: Modelado y control del sistema musculoesquelético
-[![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=PradoIT/MSFP3)
 
 # Práctica 3 — Sistema Musculoesquelético
 
