@@ -352,20 +352,6 @@ $$
 
 Las sustituciones numéricas y la conversión a desplazamiento complementan el desarrollo manuscrito. No corresponden a resultados de simulación ni a una sintonización del PID.
 
-#### 4.6. Evidencia de los cálculos manuscritos
-
-**Hoja 1. Circuito equivalente y separación por superposición.**
-
-![Circuito equivalente y superposición](imagenes/calculos-1.png)
-
-**Hoja 2. Ecuaciones del circuito y primera contribución.**
-
-![Ecuaciones y transformada de Laplace](imagenes/calculos-2.png)
-
-**Hoja 3. Segunda contribución y función de transferencia final.**
-
-![Suma de contribuciones y función de transferencia](imagenes/calculos-3.png)
-
 ### 5. Error en estado estacionario
 
 Se utiliza una entrada adecuada para estudiar el comportamiento final, por ejemplo un escalón. Esta prueba es distinta del análisis al impulso solicitado para comparar la dinámica.
