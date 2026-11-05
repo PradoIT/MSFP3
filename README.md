@@ -303,9 +303,7 @@ El diagrama relaciona el elemento contráctil con la generación de fuerza, el t
 
 Es una representación simplificada: cada componente agrupa propiedades de varias estructuras. Por ello, la equivalencia ayuda a interpretar el modelo, pero no describe de manera completa toda la anatomía ni todos los mecanismos de la contracción muscular.
 
-<p align="center">
-  <img src="imagenes/diagrama_pdf-000.png" alt="Diagrama biológico del sistema musculoesquelético: fuerza activa muscular, tendones y componentes viscosos y elásticos" width="1000">
-</p>
+file:///D:/Modelado%20Pr%C3%A1ctica%203/Sistema%20musculoesquel%C3%A9ticoBiorender.pdf 
 
 *Figura 2. Diagrama biológico del sistema musculoesquelético incluido en el PDF.*
 
