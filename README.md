@@ -302,8 +302,8 @@ Las posibles diferencias se revisan considerando unidades, signos, coeficientes,
 El diagrama relaciona el elemento contráctil con la generación de fuerza, el tendón con la elasticidad en serie, el tejido conectivo con la elasticidad pasiva en paralelo y el comportamiento viscoso con la resistencia interna al movimiento.
 
 Es una representación simplificada: cada componente agrupa propiedades de varias estructuras. Por ello, la equivalencia ayuda a interpretar el modelo, pero no describe de manera completa toda la anatomía ni todos los mecanismos de la contracción muscular.
+<img width="1395" height="827" alt="image" src="https://github.com/user-attachments/assets/2450eab9-66d1-49c0-9745-e7aa7f9c654b" />
 
-file:///D:/Modelado%20Pr%C3%A1ctica%203/Sistema%20musculoesquel%C3%A9ticoBiorender.pdf 
 
 *Figura 2. Diagrama biológico del sistema musculoesquelético incluido en el PDF.*
 
