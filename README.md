@@ -95,15 +95,7 @@ El sistema de retroalimentación incorpora un controlador PID. Las ganancias $k_
 
 La práctica se realiza exclusivamente mediante experimentación *in silico*, con fines académicos y de simulación; no constituye un tratamiento para la atrofia muscular.
 
-Palabras clave: Sistema musculoesquelético; Analogía fuerza–voltaje; Modelo matemático; Controlador PID; Simulaciones numéricas.
-
-## Imagen del sistema musculoesquelético
-
-<p align="center">
-  <img src="imagenes/sistema_musculoesqueletico.png" alt="Diagrama biológico del sistema musculoesquelético: músculo, tendón, componente viscosa y elasticidad pasiva" width="1000">
-</p>
-
-*Figura 1. Diagrama biológico del sistema musculoesquelético proporcionado para la práctica.*
+Palabras clave: circuito RLC; Sistema musculoesqueletico; controlador PID; Simulaciones numéricas.
 
 | Elemento del modelo | Interpretación biológica |
 | --- | --- |
@@ -302,6 +294,8 @@ Las posibles diferencias se revisan considerando unidades, signos, coeficientes,
 El diagrama relaciona el elemento contráctil con la generación de fuerza, el tendón con la elasticidad en serie, el tejido conectivo con la elasticidad pasiva en paralelo y el comportamiento viscoso con la resistencia interna al movimiento.
 
 Es una representación simplificada: cada componente agrupa propiedades de varias estructuras. Por ello, la equivalencia ayuda a interpretar el modelo, pero no describe de manera completa toda la anatomía ni todos los mecanismos de la contracción muscular.
+
+## Imagen del sistema musculoesquelético
 <img width="1395" height="827" alt="image" src="https://github.com/user-attachments/assets/2450eab9-66d1-49c0-9745-e7aa7f9c654b" />
 
 
