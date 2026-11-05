@@ -1,9 +1,9 @@
+[README (3) (1).md](https://github.com/user-attachments/files/34408381/README.3.1.md)
 
-[![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=PradoIT/MSFP3)
 # Práctica 3: Modelado y control del sistema musculoesquelético
 
 ## Información del estudiante
-Prado Acosta Briseida  23210715; L23210715@tijuana.tecn.mx
+David Esau Cerano Fuentes  \[23210696]; L23210696@tijuana.tecn.mx
 
 Modelado de Sistemas Fisiológicos
 
@@ -95,7 +95,15 @@ El sistema de retroalimentación incorpora un controlador PID. Las ganancias $k_
 
 La práctica se realiza exclusivamente mediante experimentación *in silico*, con fines académicos y de simulación; no constituye un tratamiento para la atrofia muscular.
 
-Palabras clave: circuito RLC; Sistema musculoesqueletico; controlador PID; Simulaciones numéricas.
+Palabras clave: Sistema musculoesquelético; Analogía fuerza–voltaje; Modelo matemático; Controlador PID; Simulaciones numéricas.
+
+## Imagen del sistema musculoesquelético
+
+<p align="center">
+  <img src="imagenes/sistema_musculoesqueletico.png" alt="Diagrama biológico del sistema musculoesquelético: músculo, tendón, componente viscosa y elasticidad pasiva" width="1000">
+</p>
+
+*Figura 1. Diagrama biológico del sistema musculoesquelético proporcionado para la práctica.*
 
 | Elemento del modelo | Interpretación biológica |
 | --- | --- |
@@ -165,6 +173,70 @@ $$
 
 La comprobación consiste en verificar que las ecuaciones mecánicas y eléctricas coincidan al sustituir fuerza por voltaje y desplazamiento por carga.
 
+#### 3.1. Desarrollo del circuito por superposición
+
+El cálculo manuscrito separa la contribución de las dos fuentes para obtener la señal $F_s(t)$ asociada al capacitor $C_p$:
+
+$$
+F_s(t)=F_{s1}(t)+F_{s2}(t),\qquad F_0(t)=\alpha F(t).
+$$
+
+En la analogía eléctrica, $F_s$ corresponde al voltaje del capacitor $C_p$. Se utiliza $i(t)$ para identificar las corrientes del circuito y distinguirlas del desplazamiento $x(t)$.
+
+**Primera contribución: fuente $F(t)$ activa y fuente $F_0(t)$ anulada.**
+
+Al anular la fuente ideal de voltaje $F_0(t)$ se sustituye por un cortocircuito. La ley de corrientes establece:
+
+$$
+i(t)=i_s(t)+i_R(t).
+$$
+
+Las relaciones de cada rama son:
+
+$$
+i(t)=C_p\frac{dF_{s1}(t)}{dt},
+$$
+
+$$
+i_s(t)=C_s\frac{d[F(t)-F_{s1}(t)]}{dt},\qquad
+i_R(t)=\frac{F(t)-F_{s1}(t)}{R}.
+$$
+
+Por sustitución:
+
+$$
+C_p\frac{dF_{s1}(t)}{dt}
+=C_s\frac{d[F(t)-F_{s1}(t)]}{dt}
++\frac{F(t)-F_{s1}(t)}{R}.
+$$
+
+**Segunda contribución: fuente $F_0(t)$ activa y fuente $F(t)$ anulada.**
+
+Con la fuente externa sustituida por un cortocircuito, los capacitores quedan en paralelo y su capacitancia equivalente es:
+
+$$
+C_{\mathrm{eq}}=C_p+C_s.
+$$
+
+Con la polaridad del circuito dibujado, la fuente equivalente es $-F_0(t)$. La ecuación de esta contribución es:
+
+$$
+R(C_p+C_s)\frac{dF_{s2}(t)}{dt}+F_{s2}(t)=-F_0(t).
+$$
+
+Las contribuciones se calculan tratando primero ambas entradas por separado; después se impone la relación $F_0(t)=\alpha F(t)$.
+
+**Ecuación diferencial total.**
+
+Al sumar ambas contribuciones se obtiene:
+
+$$
+R(C_p+C_s)\frac{dF_s(t)}{dt}+F_s(t)
+=RC_s\frac{dF(t)}{dt}+(1-\alpha)F(t).
+$$
+
+Este desarrollo conserva el resultado final de los cálculos proporcionados y presenta las ecuaciones intermedias con una notación uniforme.
+
 ### 4. Obtención de las funciones de transferencia
 
 El procedimiento comprende aplicar la transformada de Laplace con condiciones iniciales nulas, sustituir las relaciones entre las variables internas y despejar el cociente entre salida y entrada. Se obtiene una expresión general en función de $R$, $C_p$, $C_s$ y $\alpha$.
@@ -177,6 +249,123 @@ G_{\mathrm{caso}}(s)=\frac{X_{\mathrm{caso}}(s)}{F(s)}.
 $$
 
 El numerador y el denominador de cada función deben registrarse para utilizarlos en los bloques de Simulink y en la implementación de Python. Las expresiones particulares deben proceder del desarrollo del modelo, no de un ajuste arbitrario de las gráficas.
+
+#### 4.1. Transformada de Laplace de la primera contribución
+
+Con condiciones iniciales nulas:
+
+$$
+C_p sF_{s1}(s)=C_s s[F(s)-F_{s1}(s)]
++\frac{F(s)-F_{s1}(s)}{R}.
+$$
+
+Agrupando los términos de salida:
+
+$$
+\left[(C_p+C_s)s+\frac{1}{R}\right]F_{s1}(s)
+=\left(C_s s+\frac{1}{R}\right)F(s).
+$$
+
+Multiplicando por $R$ y despejando:
+
+$$
+F_{s1}(s)=\frac{RC_s s+1}{R(C_p+C_s)s+1}F(s).
+$$
+
+#### 4.2. Transformada de Laplace de la segunda contribución
+
+La ecuación de la segunda contribución se transforma en:
+
+$$
+[R(C_p+C_s)s+1]F_{s2}(s)=-F_0(s).
+$$
+
+Por tanto:
+
+$$
+F_{s2}(s)=-\frac{F_0(s)}{R(C_p+C_s)s+1}
+=-\frac{\alpha F(s)}{R(C_p+C_s)s+1}.
+$$
+
+#### 4.3. Suma de las contribuciones y función de transferencia
+
+Aplicando superposición:
+
+$$
+F_s(s)=F_{s1}(s)+F_{s2}(s)
+=\frac{RC_s s+1}{R(C_p+C_s)s+1}F(s)
+-\frac{\alpha}{R(C_p+C_s)s+1}F(s).
+$$
+
+Se obtiene el resultado final del PDF:
+
+$$
+\boxed{\frac{F_s(s)}{F(s)}
+=\frac{RC_s s+1-\alpha}{R(C_p+C_s)s+1}}.
+$$
+
+#### 4.4. Relación con el desplazamiento de salida
+
+La función anterior tiene como salida $F_s$, no directamente el desplazamiento. Como la carga de $C_p$ representa el desplazamiento y satisface $q_p=C_pF_s$, en las variables equivalentes se cumple:
+
+$$
+X(s)=C_pF_s(s).
+$$
+
+Así, la función de transferencia definida en esta práctica para el desplazamiento es:
+
+$$
+\boxed{G(s)=\frac{X(s)}{F(s)}
+=C_p\frac{RC_s s+1-\alpha}{R(C_p+C_s)s+1}}.
+$$
+
+Esta conversión permite comparar la misma salida entre el modelo matemático, la función de transferencia y el circuito eléctrico. Los valores eléctricos representan variables equivalentes; no deben interpretarse automáticamente como desplazamientos físicos en metros sin una escala de conversión.
+
+#### 4.5. Sustitución de los parámetros del control y del caso
+
+Usando $C_p=100\times10^{-6}$ F, $C_s=10\times10^{-6}$ F y $\alpha=0.25$:
+
+| Condición | $R$ | $RC_s$ | $R(C_p+C_s)$ |
+| --- | --- | --- | --- |
+| Control | 100 Ω | 0.001 s | 0.011 s |
+| Caso | 10 000 Ω | 0.1 s | 1.1 s |
+
+Para la salida $F_s$:
+
+$$
+\frac{F_{s,\mathrm{control}}(s)}{F(s)}
+=\frac{0.001s+0.75}{0.011s+1},\qquad
+\frac{F_{s,\mathrm{caso}}(s)}{F(s)}
+=\frac{0.1s+0.75}{1.1s+1}.
+$$
+
+Para la salida de desplazamiento equivalente:
+
+$$
+G_{\mathrm{control}}(s)
+=\frac{1\times10^{-7}s+7.5\times10^{-5}}{0.011s+1},
+$$
+
+$$
+G_{\mathrm{caso}}(s)
+=\frac{1\times10^{-5}s+7.5\times10^{-5}}{1.1s+1}.
+$$
+
+Las sustituciones numéricas y la conversión a desplazamiento complementan el desarrollo manuscrito. No corresponden a resultados de simulación ni a una sintonización del PID.
+
+#### 4.6. Evidencia de los cálculos manuscritos
+
+**Hoja 1. Circuito equivalente y separación por superposición.**
+
+![Circuito equivalente y superposición](imagenes/calculos-1.png)
+
+**Hoja 2. Ecuaciones del circuito y primera contribución.**
+
+![Ecuaciones y transformada de Laplace](imagenes/calculos-2.png)
+
+**Hoja 3. Segunda contribución y función de transferencia final.**
+
+![Suma de contribuciones y función de transferencia](imagenes/calculos-3.png)
 
 ### 5. Error en estado estacionario
 
@@ -295,9 +484,9 @@ El diagrama relaciona el elemento contráctil con la generación de fuerza, el t
 
 Es una representación simplificada: cada componente agrupa propiedades de varias estructuras. Por ello, la equivalencia ayuda a interpretar el modelo, pero no describe de manera completa toda la anatomía ni todos los mecanismos de la contracción muscular.
 
-## Imagen del sistema musculoesquelético
-<img width="1395" height="827" alt="image" src="https://github.com/user-attachments/assets/2450eab9-66d1-49c0-9745-e7aa7f9c654b" />
-
+<p align="center">
+  <img src="imagenes/diagrama_pdf-000.png" alt="Diagrama biológico del sistema musculoesquelético: fuerza activa muscular, tendones y componentes viscosos y elásticos" width="1000">
+</p>
 
 *Figura 2. Diagrama biológico del sistema musculoesquelético incluido en el PDF.*
 
@@ -309,12 +498,12 @@ El archivo CITATION.cff debe identificar al autor y al repositorio. También deb
 
 ## Resultados y evidencias
 
-Los materiales disponibles contienen el instructivo y el diagrama biológico. No incluyen las simulaciones ni las ganancias del PID; por ello, los resultados experimentales se dejan identificados para completarse con las evidencias reales.
+Los materiales disponibles contienen el instructivo, los diagramas biológicos y los cálculos manuscritos del modelo matemático y la función de transferencia. No incluyen las simulaciones ni las ganancias del PID; por ello, los resultados experimentales se dejan identificados para completarse con las evidencias reales.
 
 | Evidencia | Información que debe incorporarse | Estado |
 | --- | --- | --- |
-| Circuito equivalente | Esquema, conexiones y parámetros. | Pendiente. |
-| Desarrollo matemático | Ecuaciones, despejes y funciones de transferencia particulares. | Pendiente. |
+| Circuito equivalente | Esquema manuscrito, superposición y parámetros. | Incluido; implementación en Simscape pendiente. |
+| Desarrollo matemático | Ecuaciones, superposición, transformada de Laplace y funciones de transferencia. | Incluido. |
 | Estabilidad | Polos del control, del caso y del lazo cerrado. | Pendiente. |
 | Estado estacionario | Entrada empleada, valores finales y error. | Pendiente. |
 | Lazo abierto | Gráficas al impulso para control y caso. | Pendiente. |
