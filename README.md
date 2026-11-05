@@ -463,15 +463,15 @@ La implementación debe conservar el intervalo de simulación, los parámetros, 
 
 Las posibles diferencias se revisan considerando unidades, signos, coeficientes, paso temporal, método numérico, aproximación del impulso y filtrado derivativo. La coincidencia visual se complementa con una medida numérica cuando los datos estén disponibles.
 
-### 15. Interpretación del diagrama biológico
+### 15. Interpretación del diagrama fisiológico
 
 El diagrama relaciona el elemento contráctil con la generación de fuerza, el tendón con la elasticidad en serie, el tejido conectivo con la elasticidad pasiva en paralelo y el comportamiento viscoso con la resistencia interna al movimiento.
 
 Es una representación simplificada: cada componente agrupa propiedades de varias estructuras. Por ello, la equivalencia ayuda a interpretar el modelo, pero no describe de manera completa toda la anatomía ni todos los mecanismos de la contracción muscular.
 
 <p align="center">
-  <img src="imagenes/diagrama_pdf-000.png" alt="Diagrama biológico del sistema musculoesquelético: fuerza activa muscular, tendones y componentes viscosos y elásticos" width="1000">
-</p>
+<img width="1395" height="827" alt="image" src="https://github.com/user-attachments/assets/e424dc13-6c38-4ec1-a052-bb6ab22307ce" />
+
 
 *Figura 2. Diagrama biológico del sistema musculoesquelético incluido en el PDF.*
 
