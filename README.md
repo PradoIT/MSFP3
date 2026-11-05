@@ -1,9 +1,9 @@
-[README (2) (1).md](https://github.com/user-attachments/files/34407989/README.2.1.md)
+(https://github.com/user-attachments/files/34407989/README.2.1.md)
 [![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=PradoIT/MSFP3)
-# Práctica 5.5: Modelado y control del sistema musculoesquelético
+# Práctica 3: Modelado y control del sistema musculoesquelético
 
 ## Información del estudiante
-David Esau Cerano Fuentes  \[23210696]; L23210696@tijuana.tecn.mx
+Prado Acosta Briseida  23210715; L23210715@tijuana.tecn.mx
 
 Modelado de Sistemas Fisiológicos
 
