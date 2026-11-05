@@ -1,349 +1,147 @@
 [![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=PradoIT/MSFP3)
 
-# Práctica 3 — Modelado y control del Sistema Musculoesquelético
+# Práctica 3: Modelado y control del sistema musculoesquelético
 
-Repositorio académico de la asignatura **Modelado de Sistemas Fisiológicos**, correspondiente al programa de **Ingeniería Biomédica** del Tecnológico Nacional de México / Instituto Tecnológico de Tijuana. Esta práctica integra modelado matemático, analogías eléctricas y mecánicas de sistemas fisiológicos, análisis temporal y de estabilidad del tejido muscular, diseño de controladores PID, simulación computacional y comprobación experimental.
+## Información del estudiante
+David Esau Cerano Fuentes  \[23210696]; L23210696@tijuana.tecn.mx
 
-El caso de estudio representa la dinámica de la fuerza en el **sistema musculoesquelético** mediante la combinación por superposición de dos subcircuitos analógicos que consideran la compliancia en serie ($C_s$), la compliancia en paralelo ($C_p$), la resistencia pasiva muscular ($R$) y una fuente dependiente de fuerza activa ($\alpha F(t)$). Se busca reproducir y comparar la respuesta de la fuerza muscular total $F_s(t)$ ante diferentes señales de entrada de excitación $F(t)$, tanto en lazo abierto como en lazo cerrado con un controlador PID.
+Modelado de Sistemas Fisiológicos
 
-**Docente:** Dr. Paul Antonio Valle Trujillo  
-**Correo:** paul.valle@tectijuana.edu.mx  
-**Departamento:** Ingeniería Eléctrica y Electrónica  
-**Institución:** Tecnológico Nacional de México / Instituto Tecnológico de Tijuana  
-**Asignatura:** Modelado de Sistemas Fisiológicos  
-**Programa:** Ingeniería Biomédica  
-**Estudiante:** Prado Acosta Briseida · l23210715 · l23210715@tijuana.tecnm.mx
+Ingeniería Biomédica
 
-**Repositorio de la asignatura:** https://github.com/DrPaulValle/MSF-IBF1020  
-**Sede:** Blvd. Alberto Limón Padilla s/n, Tijuana, C. P. 22454, B. C., México.
+## Docente
+Dr. Paul Antonio Valle Trujillo; paul.valle@tectijuana.edu.mx
 
----
+Departamento de Ingeniería Eléctrica y Electrónica, Tecnológico Nacional de México/IT Tijuana, Blvd. Alberto Limón Padilla s/n, Tijuana, C.P. 22454, B.C., México.
 
-<a id="contenido"></a>
-## Contenido
+## Descripción de la asignatura
 
-1. [Resumen](#resumen)
-2. [Competencia y objetivos](#objetivos)
-3. [Relación con el temario](#temario)
-4. [Modelo físico y analogía eléctrica](#analogia)
-5. [Formulación matemática](#modelo)
-6. [Análisis temporal y de estabilidad](#analisis)
-7. [Señales de entrada y condiciones de simulación](#senales)
-8. [Implementación en MATLAB, Simulink y Simscape](#matlab)
-9. [Control en lazo cerrado y sintonización PID](#pid)
-10. [Reproducción en Python](#python)
-11. [Controlador analógico y laboratorio](#laboratorio)
-12. [Resultados y verificación cruzada](#resultados)
-13. [Flujo de trabajo](#flujo)
-14. [Actividades del estudiante](#actividades)
-15. [Estructura del repositorio](#estructura)
-16. [Requisitos](#requisitos)
-17. [Reproducibilidad y entregables](#reproducibilidad)
-18. [Referencias](#referencias)
+El modelizado de sistemas fisiológicos es una herramienta importante en Ingeniería Biomédica, permite comprender el funcionamiento del cuerpo humano, así como diseñar y evaluar terapias y dispositivos médicos; se define como el proceso de formular modelos matemáticos o computacionales que representan el comportamiento y la interacción de los sistemas biológicos y fisiológicos. Esta asignatura pretende aportar al perfil del Ingeniero Biomédico la capacidad de realizar investigación científica en el área de Biología de Sistemas con la finalidad de dirigir y participar en equipos de trabajo interdisciplinarios en contextos nacionales e internacionales, así como de proporcionar soluciones informáticas para resolver problemas en el campo de la Ingeniería Biomédica con ética profesional; lo anterior al proporcionar al estudiante bases sólidas para modelizar sistemas y diseñar controladores para la solución de problemas en las áreas de atención médica y del sector industrial médico. La construcción de analogías entre circuitos eléctricos y sistemas fisiológicos para la formulación de modelos matemáticos y el diseño de controladores mediante la experimentación in silico brindan herramientas de gran aplicación en el quehacer profesional del Ingeniero Biomédico.
 
----
+La asignatura de Modelado de Sistemas Fisiológicos forma parte del plan de estudios de la carrera en Ingeniería Biomédica con la siguiente competencia general del curso: Utiliza las propiedades de los circuitos RLC para describir la dinámica de sistemas fisiológicos, obtener modelos matemáticos y aplicar el control clásico, esto con el objetivo de integrar los principios de la Ingeniería de Control, la Electrónica Analógica y las Ciencias de la Computación con la Anatomía y Fisiología del cuerpo humano para proporcionar descripciones cuantitativas y cualitativas de sistemas fisiológicos complejos con el objetivo de modelizar, analizar, controlar, ilustrar y predecir su dinámica tanto en el corto como en el largo plazo.
 
-<a id="resumen"></a>
-## Resumen
+## Objetivos
 
-La práctica tiene como propósito **reproducir un procedimiento completo de modelado, análisis, simulación y control** del sistema musculoesquelético. La respuesta viscoelástica del músculo se aproxima mediante un modelo mecánico estructurado (modelo de Hill / Maxwell-Voigt modificado) representado a través de una analogía de circuitos pasivos y fuentes dependientes. Utilizando el **principio de superposición**, la respuesta total de fuerza $F_s(t)$ se descompone en dos contribuciones independientes: $F_{s1}(t)$ asociada a la fuerza de excitación $F(t)$ (Circuito 1) y $F_{s2}(t)$ asociada a la fuente dependiente de contracción activa $\alpha F(t)$ (Circuito 2).
+1. Identificar los elementos del modelo mecánico del sistema musculoesquelético y describir su función.
+2. Construir el circuito eléctrico equivalente mediante la analogía fuerza–voltaje.
+3. Formular las ecuaciones del sistema y obtener la función de transferencia entre la fuerza aplicada y el desplazamiento.
+4. Analizar el error en estado estacionario y la estabilidad para un individuo sano (control) y un caso simulado de atrofia muscular.
+5. Implementar el modelo matemático y la función de transferencia en MATLAB/Simulink, y el circuito equivalente en Simscape Electrical.
+6. Comparar las respuestas al impulso unitario del control y del caso en el intervalo de 0 a 10 segundos.
+7. Diseñar y sintonizar un controlador PID para reducir la diferencia entre la respuesta del caso y la del individuo sano.
+8. Implementar las funciones de transferencia y el sistema controlado en Python, utilizando Visual Studio Code, y comparar los resultados con MATLAB/Simulink.
+9. Relacionar los elementos mecánicos y eléctricos con las estructuras biológicas mediante un diagrama del sistema musculoesquelético.
 
-A partir de las ecuaciones de mallas y nodos se deriva la función de transferencia de primer orden del sistema, se determina el error en estado estacionario y se analiza la estabilidad temporal del tejido muscular. Posteriormente se aplican cuatro entradas de referencia —escalón, pulso, rampa y senoide— y se contrastan las simulaciones numéricas en MATLAB/Simulink/Simscape con la implementación en Python y los registros de laboratorio. Finalmente, se sintoniza un **controlador PID con retroalimentación negativa** para garantizar una respuesta precisa en lazo cerrado.
+## Descripción detallada del sistema
 
-**Palabras clave:** circuito RLC; controlador PID; sistema musculoesquelético; modelo matemático; simulaciones numéricas.
-[Volver al contenido](#contenido)
+El modelo representa de manera simplificada las propiedades viscoelásticas del sistema musculoesquelético mediante un elemento contráctil activo, un amortiguador y dos elementos elásticos. Permite estudiar la relación entre la fuerza desarrollada por el músculo, su desplazamiento y las propiedades mecánicas de los tejidos y tendones.
 
----
+La fuerza del elemento contráctil se representa mediante $F_0(t)$ y la fuerza transmitida por el sistema mediante $F(t)$. La relación establecida en la práctica es:
 
-<a id="objetivos"></a>
-## Competencia y objetivos
+$$
+F_0(t)=\alpha F(t), \qquad 0<\alpha<1.
+$$
 
-### Competencia a desarrollar
+El amortiguador $R$ representa el comportamiento viscoso del tejido. Los elementos $C_p$ y $C_s$ representan las compliancias del elemento paralelo y del elemento en serie, respectivamente. El desplazamiento total es $x(t)$, mientras que $x_1(t)$ corresponde al elemento elástico en serie. Por tanto, la deformación del amortiguador es $x(t)-x_1(t)$ y su velocidad relativa es:
 
-Comprender y aplicar las propiedades de los modelos dinámicos de primer y segundo orden y el teorema de superposición en analogías eléctricas para describir la viscoelasticidad y la contracción del sistema musculoesquelético. La práctica permite diseñar estrategias de control retroalimentado sobre la fuerza muscular y evaluar su desempeño in silico y en laboratorio.
+$$
+\frac{d}{dt}\left[x(t)-x_1(t)\right].
+$$
 
-### Objetivo general
+### Analogía electromecánica
 
-Obtener, simular y controlar el modelo matemático del sistema musculoesquelético representado por la suma de dos subcircuitos ($F_s(t) = F_{s1}(t) + F_{s2}(t)$), validando la función de transferencia en lazo abierto y lazo cerrado mediante MATLAB, Simulink, Python y pruebas de laboratorio.
+Para construir el circuito eléctrico equivalente se utiliza la analogía fuerza–voltaje:
 
-### Objetivos específicos
+| Sistema mecánico | Sistema eléctrico equivalente |
+| --- | --- |
+| Fuerza $F(t)$ | Voltaje $V(t)$ |
+| Velocidad $\dot{x}(t)$ | Corriente $I(t)$ |
+| Desplazamiento $x(t)$ | Carga eléctrica $q(t)$ |
+| Amortiguador | Resistencia $R$ |
+| Compliancia mecánica | Capacitancia $C$ |
+| Masa, cuando está presente | Inductancia $L$ |
 
-- Formular el análisis por superposición apaga la fuente activa (Circuito 1) y la fuente de entrada (Circuito 2) para hallar $F_{s1}(s)$ y $F_{s2}(s)$.
-- Obtener la función de transferencia global $G(s) = \frac{F_s(s)}{F(s)} = \frac{C_s R s + 1 - \alpha}{R(C_p + C_s)s + 1}$.
-- Determinar las ecuaciones integro-diferenciales que rigen el comportamiento dinámico muscular.
-- Evaluar el polo del sistema y realizar el análisis de estabilidad en lazo abierto.
-- Determinar el error en estado estacionario ante entradas de referencia como el escalón unitario.
-- Emular el circuito en Simulink y Simscape Electrical ante entradas escalón, pulso, rampa y senoide.
-- Diseñar y sintonizar un controlador PID en lazo cerrado para eliminar el error en estado estacionario y optimizar la respuesta transitoria.
-- Validar el modelo y su respuesta mediante un programa independiente en Python.
+Las conexiones mecánicas y eléctricas no conservan necesariamente la misma topología. Los elementos mecánicos en paralelo pueden representarse mediante elementos eléctricos en serie, y los elementos mecánicos en serie mediante elementos eléctricos en paralelo. Deben revisarse los nodos de referencia y la ubicación de los desplazamientos antes de establecer el circuito equivalente.
 
-[Volver al contenido](#contenido)
+### Parámetros del control y del caso
 
----
+Los siguientes valores corresponden al circuito eléctrico equivalente indicado en la práctica:
 
-<a id="temario"></a>
-## Relación con el temario
+| Parámetro | Control: individuo sano | Caso: atrofia muscular simulada |
+| --- | --- | --- |
+| Entrada equivalente a $F(t)$ | 1 V | 1 V |
+| $\alpha$ | 0.25 | 0.25 |
+| $C_s$ | 10 µF | 10 µF |
+| $C_p$ | 100 µF | 100 µF |
+| $R$ | 100 Ω | 10 kΩ |
 
-La práctica integra contenidos correspondientes a tres unidades de la asignatura **Modelado de Sistemas Fisiológicos (IBF-1020)**:
+La diferencia entre ambas condiciones se representa mediante el incremento de $R$, que modifica la componente viscosa del modelo. Estos valores son parámetros de simulación eléctrica y no mediciones directas de un paciente.
 
-| Unidad | Área | Contenidos aplicados |
-|---|---|---|
-| I | Sistemas de control retroalimentados | Diagramas de bloques, respuesta temporal, análisis de error y criterios de estabilidad |
-| II | Modelado matemático | Analogía circuito–sistema musculoesquelético, principio de superposición, ecuaciones de mallas/nodos y función de transferencia |
-| III | Controladores | Tipos de controladores, diseño del PID y sintonización de ganancias |
+### Modelo matemático y sistema de control
 
-[Volver al contenido](#contenido)
+A partir de las relaciones constitutivas y del equilibrio de fuerzas se deben obtener las ecuaciones del sistema. Considerando condiciones iniciales nulas y el desplazamiento como salida, la función de transferencia se expresa como:
 
----
+$$
+G(s)=\frac{X(s)}{F(s)}.
+$$
 
-<a id="analogia"></a>
-## Modelo físico y analogía eléctrica
+Se deben obtener las funciones correspondientes al control y al caso, calcular sus polos y analizar el error en estado estacionario. La respuesta del individuo sano se utiliza como referencia para el caso simulado. La señal de error se define como:
 
-El sistema musculoesquelético combina elementos elásticos pasivos (tendones y fascia) con elementos contráctiles activos (sarcómeros). Se representa mediante el circuito analógico equivalente donde la fuerza muscular $F_s(t)$ se relaciona con corrientes/voltajes según la convención adoptada.
+$$
+e(t)=x_{\mathrm{control}}(t)-x_{\mathrm{caso}}(t).
+$$
 
-| Símbolo | Equivalente eléctrico | Interpretación fisiológica |
-|---|---|---|
-| $F(t)$ | Fuente de entrada | Fuerza de excitación / estímulo neural |
-| $F_s(t)$ | Respuesta de salida | Fuerza muscular total resultante ($F_{s1} + F_{s2}$) |
-| $R$ | Resistencia | Amortiguamiento viscoelástico / resistencia pasiva muscular |
-| $C_s$ | Capacitancia en serie | Compliancia del elemento elástico en serie (tendón) |
-| $C_p$ | Capacitancia en paralelo | Compliancia del elemento elástico en paralelo (teji conectivo pasivo) |
-| $\alpha F(t)$ | Fuente dependiente | Contracción activa producida por el acoplamiento miosina-actina |
+El sistema de retroalimentación incorpora un controlador PID. Las ganancias $k_P$, $k_I$ y $k_D$ se determinan mediante la herramienta **Tune** del bloque **PID Controller** de Simulink. Posteriormente se comparan las respuestas del control, del caso en lazo abierto y del caso con controlador, considerando amplitud, velocidad de respuesta, amortiguamiento y diferencia respecto a la referencia.
 
-[Volver al contenido](#contenido)
+La práctica se realiza exclusivamente mediante experimentación *in silico*, con fines académicos y de simulación; no constituye un tratamiento para la atrofia muscular.
 
----
+Palabras clave: Sistema musculoesquelético; Analogía fuerza–voltaje; Modelo matemático; Controlador PID; Simulaciones numéricas.
 
-<a id="modelo"></a>
-## Formulación matemática
+## Imagen del sistema musculoesquelético
 
-### 1. Análisis por superposición
+![Diagrama biológico del sistema musculoesquelético](image%2820261105-043853%29.png)
 
-La fuerza total en el dominio de Laplace es la suma de los dos estados:
+*Figura 1. Diagrama biológico del sistema musculoesquelético proporcionado para la práctica.*
+
+| Elemento del modelo | Interpretación biológica |
+| --- | --- |
+| $F_0(t)$ | Fuerza generada por el elemento contráctil activo del músculo. |
+| $C_s$ | Compliancia en serie, asociada principalmente a los tendones. |
+| $C_p$ | Compliancia en paralelo, asociada a la elasticidad pasiva del músculo y del tejido conectivo. |
+| $R$ | Componente viscosa del tejido y resistencia interna al movimiento. |
+| $x(t)$ | Desplazamiento total del modelo. |
+| $x_1(t)$ | Desplazamiento del elemento elástico en serie. |
+
+En la imagen también aparece la etiqueta $x_2(t)$; en el instructivo, la deformación relativa del amortiguador se expresa como $x(t)-x_1(t)$.
+
+<!-- Mantener image(20261105-043853).png en la misma carpeta que este README para visualizar la imagen. -->
+
+## Lista de archivos incluidos en el repositorio
+
+La siguiente lista corresponde a los entregables solicitados por el instructivo. Los archivos de simulación y sus resultados deberán incorporarse conforme se complete la práctica.
+
+1. Archivo README.md con la descripción y documentación de la práctica.
+2. Análisis del modelo mecánico y desarrollo de la analogía electromecánica.
+3. Circuito eléctrico equivalente y desarrollo matemático del sistema.
+4. Cuaderno computacional de MATLAB y figuras exportadas en PDF.
+5. Modelos de Simulink para las ecuaciones, las funciones de transferencia y el sistema de control [.slx].
+6. Modelo del circuito equivalente en Simscape Electrical.
+7. Código fuente de Python para las respuestas en lazo abierto y en lazo cerrado [.py].
+8. Parámetros y capturas de la sintonización del controlador PID.
+9. Figuras de las respuestas del control, del caso y del sistema controlado obtenidas en MATLAB y Python.
+10. Capturas de las simulaciones y comparación entre las diferentes implementaciones.
+11. Diagrama biológico del sistema musculoesquelético [image(20261105-043853).png].
+12. Archivos complementarios utilizados durante la práctica.
+13. Archivo CITATION.cff con la información del alumno y del repositorio.
 
-$$F_s(s) = F_{s1}(s) + F_{s2}(s)$$
-
-#### Circuito 1 (Apagando fuente dependiente $F_0(t) = \alpha F(t)$)
-Al realizar el análisis de nodos y mallas para la primera componente de fuerza:
-
-$$F_{s1}(s) = \frac{C_s R s + 1}{R(C_p + C_s)s + 1} F(s)$$
-
-#### Circuito 2 (Apagando la entrada $F(t)$)
-Al evaluar únicamente la contribución de la fuente dependiente de la contracción muscular $-\alpha F(t)$:
-
-$$F_{s2}(s) = -\frac{\alpha}{R(C_p + C_s)s + 1} F(s)$$
-
-### 2. Función de transferencia global
-
-Sumando las contribuciones de ambos subcircuitos:
-
-$$F_s(s) = \frac{C_s R s + 1}{R(C_p + C_s)s + 1} F(s) - \frac{\alpha}{R(C_p + C_s)s + 1} F(s)$$
-
-$$\boxed{G(s) = \frac{F_s(s)}{F(s)} = \frac{C_s R s + 1 - \alpha}{R(C_p + C_s)s + 1}}$$
-
-[Volver al contenido](#contenido)
-
----
-
-<a id="analisis"></a>
-## Análisis temporal y de estabilidad
-
-### 1. Error en estado estacionario
-
-Para una entrada de escalón unitario $F(s) = \frac{1}{s}$, aplicando el Teorema del Valor Final:
-
-$$e_{ss} = \lim_{s \to 0} s F(s) [1 - G(s)] = \lim_{s \to 0} s \left(\frac{1}{s}\right) \left[ 1 - \frac{C_s R s + 1 - \alpha}{R(C_p + C_s)s + 1} \right]$$
-
-$$\boxed{e_{ss} = 1 - (1 - \alpha) = \alpha}$$
-
-El error en estado estacionario en lazo abierto depende directamente del coeficiente de activación muscular $\alpha$.
-
-### 2. Polos y estabilidad
-
-El polo del sistema se obtiene igualando a cero el denominador de la función de transferencia:
-
-$$R(C_p + C_s)s + 1 = 0 \implies \boxed{s_1 = -\frac{1}{R(C_p + C_s)}}$$
-
-Dado que los parámetros físicos del músculo $R > 0$, $C_p > 0$ y $C_s > 0$ son estrictamente positivos, el polo se ubica en el entreplano izquierdo del plano $s$ ($s_1 < 0$). Por lo tanto, **el sistema musculoesquelético es BIBO estable** de primer orden.
-
-[Volver al contenido](#contenido)
-
----
-
-<a id="senales"></a>
-## Señales de entrada y condiciones de simulación
-
-| Señal | Definición para la simulación | Propósito |
-|---|---|---|
-| Escalón | $u(t) = 1$ para $t \ge 0$ | Evaluar la respuesta a una contracción sostenida |
-| Pulso | Amplitud $1$, duración $1\,\mathrm{s}$ | Evaluar la respuesta ante una sacudida muscular rápida (twitch) |
-| Rampa | $u(t) = t/10$ | Simular el reclutamiento progresivo de fibras musculares |
-| Senoide | $u(t) = \sin(\pi t / 2)$ | Simular el patrón de movimiento oscilatorio cíclico |
-
-[Volver al contenido](#contenido)
-
----
-
-<a id="matlab"></a>
-## Implementación en MATLAB, Simulink y Simscape
-
-Se realizan tres esquemas de implementación en el entorno MATLAB:
-1. **Diagrama de bloques integro-diferencial en Simulink:** Representa la integración de los flujos y estados pasivo/activo del músculo.
-2. **Función de transferencia:** Utilizando la función `tf` con los coeficientes del numerador $(C_s R s + 1 - \alpha)$ y denominador $(R(C_p + C_s)s + 1)$.
-3. **Esquema de componentes en Simscape Electrical:** Modelado analógico con la superposición de mallas R-C.
-
-[Volver al contenido](#contenido)
-
----
-
-<a id="pid"></a>
-## Control en lazo cerrado y sintonización PID
-
-### 1. Retroalimentación negativa
-
-Dado que en lazo abierto el error en estado estacionario es $e_{ss} = \alpha$, se implementa un controlador PID en lazo cerrado con retroalimentación negativa unitaria para anular esta desviación y garantizar que la fuerza muscular siga fielmente el comando de excitación de referencia.
-
-### 2. Sintonización
-
-Con la herramienta `PID Tuner` de Simulink se ajustan las ganancias $k_P$, $k_I$ y $k_D$ para cumplir con las especificaciones de desempeño:
-- Tiempo de establecimiento $t_s \le 100\,\mathrm{ms}$
-- Sobreimpulso $M_p \le 10\%$
-
-[Volver al contenido](#contenido)
-
----
-
-<a id="python"></a>
-## Reproducción en Python
-
-Mediante un script ejecutable en Python (`.py`), se define la función de transferencia $G(s)$, se calcula la posición del polo del sistema y se grafican las respuestas en lazo abierto y lazo cerrado comparándolas directamente con los resultados obtenidos en MATLAB.
-
-[Volver al contenido](#contenido)
-
----
-
-<a id="laboratorio"></a>
-## Controlador analógico y laboratorio
-
-### Materiales y equipo
-- Resistores, capacitores y amplificadores operacionales (TL084 / LM358).
-- Fuente de alimentación simétrica ($\pm 15\,\mathrm{V}$).
-- Generador de funciones y osciloscopio para captura de respuestas en lazo abierto y lazo cerrado.
-
-[Volver al contenido](#contenido)
-
----
-
-<a id="resultados"></a>
-## Resultados y verificación cruzada
-
-Se organizan las evidencias gráficas obtenidas de las tres plataformas de prueba.
-
-### Archivos de resultados
-
-| Entrada | MATLAB/Simulink | Python | Laboratorio (Osciloscopio) |
-|---|---|---|---|
-| Escalón | `step_matlab.pdf` | `step_python.pdf` | `stepLC.pdf` |
-| Pulso | `impulse_matlab.pdf` | `impulse_python.pdf` | `impulseLC.pdf` |
-| Rampa | `ramp_matlab.pdf` | `ramp_python.pdf` | `rampLC.pdf` |
-| Sinusoidal | `sinusoidal_matlab.pdf` | `sinusoidal_python.pdf` | `sinLC.pdf` |
-
-[Volver al contenido](#contenido)
-
----
-
-<a id="flujo"></a>
-## Flujo de trabajo
-
-```mermaid
-flowchart TD
-    A[Sistema Musculoesqueletico] --> B[Modelo de Hill / Analogia RLC]
-    B --> C[Teorema de Superposicion: Circuito 1 y 2]
-    C --> D[Ecuaciones Integro-diferenciales]
-    C --> E[Funcion de Transferencia G s ]
-    E --> F[Analisis de Polo y Estabilidad]
-    E --> G[Calculo de Error e_ss = alpha]
-    D --> H[Simulink: Ecuaciones]
-    E --> I[Simulink: Transfer Fcn]
-    B --> J[Simscape Electrical]
-    E --> K[Sintonizacion de Controlador PID]
-    K --> L[Simulacion Lazo Cerrado]
-    E --> M[Verificacion en Python]
-    L --> N[Montaje en Laboratorio]
-    N --> O[Resultados y Reporte en GitHub]
-```
-
-[Volver al contenido](#contenido)
-
----
-
-<a id="actividades"></a>
-## Actividades del estudiante
-
-- [x] Aplicar superposición para resolver el Circuito 1 y Circuito 2.
-- [x] Obtener la función de transferencia global $G(s) = \frac{C_s R s + 1 - \alpha}{R(C_p + C_s)s + 1}$.
-- [x] Calcular el error en estado estacionario ($e_{ss} = \alpha$).
-- [x] Determinar la ubicación del polo y verificar la estabilidad del sistema.
-- [ ] Implementar la simulación en Simulink y Simscape Electrical.
-- [ ] Diseñar y sintonizar el controlador PID para eliminar el error $\alpha$.
-- [ ] Reproducir las respuestas en lazo abierto y cerrado en Python.
-- [ ] Montar el circuito analógico en protoboard y registrar las lecturas del osciloscopio.
-- [ ] Subir código y archivos de resultados al repositorio de GitHub.
-
-[Volver al contenido](#contenido)
-
----
-
-<a id="estructura"></a>
-## Estructura del repositorio
-
-```text
-.
-├── README.md                           # Reporte principal y guía de la práctica
-├── CITATION.cff                        # Fichero de citación
-├── Prado_l23210715.mlx                 # Cuaderno de MATLAB
-├── Prado_l23210715.pdf                 # Reporte exportado en PDF
-├── sistema_musculoesqueletico.slx      # Modelo de Simulink/Simscape
-├── sistema_musculoesqueletico.py       # Código en Python
-├── controlador_pid.png                 # Parámetros del controlador
-```
-
-[Volver al contenido](#contenido)
-
----
-
-<a id="requisitos"></a>
-## Requisitos
-
-### Software
-- **MATLAB R2023a o superior** (Simulink, Simscape Electrical, Control System Toolbox).
-- **Python 3.8+** (con `numpy`, `scipy`, `matplotlib`, `control`).
-- **VS Code** .
-
-### Recursos de laboratorio
-- Instrumentación de laboratorio (Osciloscopio, Fuente simétrica, Generador de funciones).
-
-[Volver al contenido](#contenido)
-
----
-
-<a id="reproducibilidad"></a>
-## Reproducibilidad y entregables
-
-1. Clonar el repositorio: `git clone https://github.com/PradoIT/MSFP3.git`
-2. Abrir el cuaderno `.mlx` en MATLAB y ejecutar todas las secciones.
-3. Ejecutar el archivo `.py` en Python para verificar las respuestas temporales.
-4. Comparar el comportamiento entre lazo abierto y lazo cerrado al variar el parámetro $\alpha$.
-
-[Volver al contenido](#contenido)
-
----
-
-<a id="referencias"></a>
 ## Referencias
 
-[1] P. A. Valle, Syllabus para Modelado de Sistemas Fisiológicos, Tecnológico Nacional de México / Instituto Tecnológico de Tijuana, Tijuana, B.C., México, 2025. Permalink: https://biomath.xyz/course/
+\[1] P. A. Valle, *Syllabus para Modelado de Sistemas Fisiológicos*, Tecnológico Nacional de México / Instituto Tecnológico de Tijuana, Tijuana, B.C., México, 2025. https://biomath.xyz/course/
 
-[2] M. C. Khoo, *Physiological Control Systems: Analysis, Simulation, and Estimation*, 2nd ed. Piscataway, New Jersey, USA: IEEE Press, 2018.
+\[2] *Práctica 5.5: Modelado y control del sistema musculoesquelético*, instructivo proporcionado, pp. 87–94.
 
-[3] N. S. Nise, *Control Systems Engineering*, 8th ed. Hoboken, New Jersey, USA: John Wiley & Sons, 2020.
+\[3] M. C. Khoo, *Physiological Control Systems: Analysis, Simulation, and Estimation*, 2nd ed., IEEE Press, 2018.
+
+\[4] F. C. Hoppensteadt y C. S. Peskin, *Modeling and Simulation in Medicine and the Life Sciences*, Springer.
+
+\[5] J. E. Hall, *Guyton and Hall Textbook of Medical Physiology*, 14th ed., Elsevier, 2021.
